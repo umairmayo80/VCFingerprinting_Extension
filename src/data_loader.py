@@ -143,7 +143,7 @@ if __name__ == "__main__":
     fps, lbls, lmap = load_dataset()
     print(f"Total samples : {len(fps)}")
     print(f"Unique classes: {len(lmap)}")
-    print(f"Label map sample: {dict(list(lmap.items())[:3])}")
+    print(f"Label map sample: {dict(list(lmap.items())[:3])} ... {dict(list(lmap.items())[-3:])}")
     # Verify one trace loads cleanly
     df = load_trace(fps[0])
     print(f"\nSample trace: {fps[0]}")
