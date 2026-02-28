@@ -39,9 +39,9 @@ LLNB_SIZE_RANGE: tuple = (-1500, 1501)
 VNGPP_ROUNDING_PARAM: int = 5000
 VNGPP_BURST_RANGE: tuple = (-400_000, 400_001)
 
-# P-SVM: burst rounding (same range as VNG++)
+# P-SVM: burst rounding 
 PSVM_ROUNDING_PARAM: int = 5000
-PSVM_BURST_RANGE: tuple = (-400_000, 400_001)
+PSVM_BURST_RANGE: tuple = (-200_000, 200_001)
 
 # ── Semantic Evaluation ─────────────────────────────────────────────────────
 # Strategy: 'sentence_transformers' (no training, default) or 'doc2vec'
