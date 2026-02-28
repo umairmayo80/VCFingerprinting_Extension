@@ -91,12 +91,9 @@ def compute_llnb_feature(
         n_bins = math.ceil((range_max - range_min) / rounding_param)
         return np.zeros(n_bins)
 
-    # Signed packet sizes
+    # Signed packet sizes — bin directly WITHOUT rounding 
     signed_sizes = (df["size"] * df["direction"]).tolist()
-    # Round to nearest multiple
-    rounded = [_round_to_multiple(v, rounding_param) for v in signed_sizes]
-    # Build histogram
-    return _histogram(rounded, range_min, range_max, rounding_param)
+    return _histogram(signed_sizes, range_min, range_max, rounding_param)
 
 
 # ── VNG++ Feature Extraction ───────────────────────────────────────────────
@@ -121,10 +118,9 @@ def compute_vngpp_feature(
         n_bins = math.ceil((range_max - range_min) / rounding_param)
         return np.zeros(n_bins + 3)
 
-    # Burst bytes
+    # Burst bytes 
     bursts = _compute_bursts(df)
-    rounded_bursts = [_round_to_multiple(b, rounding_param) for b in bursts]
-    burst_hist = _histogram(rounded_bursts, range_min, range_max, rounding_param)
+    burst_hist = _histogram(bursts, range_min, range_max, rounding_param)
 
     # Scalar features
     total_trace_time = float(df["time"].max() - df["time"].min())
@@ -160,9 +156,9 @@ def compute_psvm_feature(
         n_bins = math.ceil((range_max - range_min) / rounding_param)
         return np.zeros(n_bins + 5)
 
+    # Burst bytes
     bursts = _compute_bursts(df)
-    rounded_bursts = [_round_to_multiple(b, rounding_param) for b in bursts]
-    burst_hist = _histogram(rounded_bursts, range_min, range_max, rounding_param)
+    burst_hist = _histogram(bursts, range_min, range_max, rounding_param)
 
     total_packets = len(df)
     up_packets   = int((df["direction"] == 1).sum())
