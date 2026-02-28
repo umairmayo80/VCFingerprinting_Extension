@@ -108,43 +108,35 @@ def make_vngpp_model() -> GaussianNB:
 def make_psvm_adaboost_model(
     n_estimators: int = config.ADABOOST_N_ESTIMATORS,
     random_state: int = config.RANDOM_SEED,
-) -> Pipeline:
+) -> AdaBoostClassifier:
     """
     P-SVM (AdaBoost): AdaBoostClassifier with P-SVM features.
     The paper switched to AdaBoost because SVM achieved only 1.2%.
-    Uses standard scaler in a pipeline for stability.
     """
-    return Pipeline([
-        ("scaler", StandardScaler()),
-        ("clf", AdaBoostClassifier(
-            n_estimators=n_estimators,
-            random_state=random_state,
-            algorithm="SAMME",
-        )),
-    ])
+    return AdaBoostClassifier(
+        n_estimators=n_estimators,
+        random_state=random_state,
+        algorithm="SAMME",
+    )
 
 
 def make_psvm_svc_model(
-    C: float = 10.0,
+    C: float = 1.0,
     kernel: str = "rbf",
     gamma: str = "scale",
     random_state: int = config.RANDOM_SEED,
-) -> Pipeline:
+) -> SVC:
     """
     P-SVM (SVM): SVC with RBF kernel on P-SVM features.
-    The original study got 1.2%; we attempt with tuned C.
-    Uses StandardScaler — critical for SVM performance.
+    Original uses kMode=2 (RBF) with NO StandardScaler and default C=1.
     """
-    return Pipeline([
-        ("scaler", StandardScaler()),
-        ("clf", SVC(
-            kernel=kernel,
-            C=C,
-            gamma=gamma,
-            random_state=random_state,
-            decision_function_shape="ovo",
-        )),
-    ])
+    return SVC(
+        kernel=kernel,
+        C=C,
+        gamma=gamma,
+        random_state=random_state,
+        decision_function_shape="ovo",
+    )
 
 
 # ═══════════════════════════════════════════════════════════════════════════
