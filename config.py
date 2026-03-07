@@ -63,5 +63,5 @@ SEQUENCE_PAD_LEN: int = 512      # packets per trace (pad/truncate)
 
 # ── Model-specific Hyperparameters ──────────────────────────────────────────
 RF_N_ESTIMATORS: int = 300
-KNN_K: int = 3
+KNN_K: int = 5
 ADABOOST_N_ESTIMATORS: int = 200
